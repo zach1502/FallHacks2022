@@ -18,6 +18,7 @@ namespace StarterAssets
 		public int currentHealth;
 		public Slider slider;
 		public VolumeProfile profile;
+		private Vignette vignette;
 
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
@@ -119,6 +120,8 @@ namespace StarterAssets
 
 			currentHealth = maxHealth;
 			slider.value = currentHealth;
+			profile.TryGet<Vignette>(out vignette);
+			vignette.intensity.value = 0f;
 
 			InvokeRepeating("Suffocate", 1f, 1f);  //1s delay, repeat every 1s
 		}
@@ -281,6 +284,8 @@ namespace StarterAssets
 		private void Suffocate(){
 			TakeDamage(1);
 			slider.value = currentHealth;
+
+			vignette.intensity.value += 0.0060f;
 		}
 
 		private void TakeDamage(int damage){
