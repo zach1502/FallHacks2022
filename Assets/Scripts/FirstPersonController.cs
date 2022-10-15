@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+
 #endif
 
 namespace StarterAssets
@@ -14,11 +15,19 @@ namespace StarterAssets
 #endif
 	public class FirstPersonController : MonoBehaviour
 	{
+		
+		///// UI
+		// Health
 		public int maxHealth = 60;
 		public int currentHealth;
 		public Slider slider;
+
+		// Vignette
 		public VolumeProfile profile;
 		private Vignette vignette;
+
+
+		///// State Handling
 
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
@@ -286,6 +295,11 @@ namespace StarterAssets
 			slider.value = currentHealth;
 
 			vignette.intensity.value += 0.0060f;
+
+			if(currentHealth <= 0){
+				// Change State
+				FindObjectOfType<gameManager>().EndGame();
+			}
 		}
 
 		private void TakeDamage(int damage){
