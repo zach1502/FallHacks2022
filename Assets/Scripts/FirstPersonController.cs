@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 #endif
 
 namespace StarterAssets
@@ -11,6 +14,11 @@ namespace StarterAssets
 #endif
 	public class FirstPersonController : MonoBehaviour
 	{
+		public int maxHealth = 60;
+		public int currentHealth;
+		public Slider slider;
+		public VolumeProfile profile;
+
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
 		public float MoveSpeed = 4.0f;
@@ -108,6 +116,11 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+
+			currentHealth = maxHealth;
+			slider.value = currentHealth;
+
+			InvokeRepeating("Suffocate", 1f, 1f);  //1s delay, repeat every 1s
 		}
 
 		private void Update()
@@ -263,6 +276,16 @@ namespace StarterAssets
 
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
+		}
+
+		private void Suffocate(){
+			TakeDamage(1);
+			slider.value = currentHealth;
+		}
+
+		private void TakeDamage(int damage){
+			currentHealth -= damage;
+			return;
 		}
 	}
 }
