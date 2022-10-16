@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 #endif
 
@@ -305,6 +306,14 @@ namespace StarterAssets
 		private void TakeDamage(int damage){
 			currentHealth -= damage;
 			return;
+		}
+
+		private void OnTriggerEnter(Collider other){
+			Debug.Log("????");
+
+			if(other.transform.gameObject.name == "spacefighter"){
+				SceneManager.LoadScene(3);
+			}
 		}
 	}
 }

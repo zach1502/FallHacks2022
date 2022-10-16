@@ -13,6 +13,7 @@ public class SwapBackIn5 : MonoBehaviour
 
     void SwapBack(){
         SceneManager.LoadScene(0);
+
         SceneManager.UnloadScene(1);
     }
 }
